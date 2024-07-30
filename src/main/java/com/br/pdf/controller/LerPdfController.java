@@ -21,7 +21,7 @@ public class LerPdfController {
 	@PostMapping
 	public String extractText(@RequestPart("file") MultipartFile file) {
 		try {
-			return pdfService.extractTextFromPDF(file);
+			return pdfService.extractTextFromPDF2(file);
 		} catch (IOException e) {
 			return "Error reading PDF: " + e.getMessage();
 		}

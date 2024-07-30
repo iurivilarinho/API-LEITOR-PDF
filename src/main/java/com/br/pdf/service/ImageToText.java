@@ -3,7 +3,10 @@ package com.br.pdf.service;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imdecode;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.apache.coyote.BadRequestException;
 import org.bytedeco.javacv.Java2DFrameConverter;
@@ -55,10 +58,51 @@ public class ImageToText {
 
 	}
 
+	public String ler(BufferedImage bufferedImage) throws IOException, TesseractException {
+		// Converter BufferedImage para Mat
+
+		// System.out.println( bufferedImageToByteArray(bufferedImage, contentType));
+		Mat image = imdecode(new Mat(bufferedImageToByteArray(bufferedImage, "png")), Imgcodecs.IMREAD_GRAYSCALE);
+
+		// Verificar se a imagem foi carregada corretamente
+		if (image == null || image.empty()) {
+			System.out.println("Erro ao carregar a imagem");
+			throw new BadRequestException("Erro ao carregar a imagem");
+		}
+
+		// Aplicar filtro gaussiano para suavizar
+		Mat imageSmoothed = new Mat();
+		opencv_imgproc.GaussianBlur(image, imageSmoothed, new Size(5, 5), 0);
+
+		// Salvar a imagem suavizada para verificação (opcional)
+		// opencv_imgcodecs.imwrite("caminho/para/sua/imagem_suavizada.png",
+		// imageSmoothed);
+
+		// Converter a Mat do JavaCV para BufferedImage para usar no Tesseract
+		BufferedImage smoothedBufferedImage = matToBufferedImage(imageSmoothed);
+
+		// Inicializar o Tesseract
+		ITesseract tesseract = new Tesseract();
+		tesseract.setDatapath("C:/Users/IuriSouza/Documents/");
+
+		// Extrair texto usando OCR
+		String extractedText = tesseract.doOCR(smoothedBufferedImage);
+		System.out.println("Texto extraído: " + extractedText);
+		return extractedText;
+
+	}
+
 	private static BufferedImage matToBufferedImage(Mat mat) {
 		try (OpenCVFrameConverter.ToMat converterToMat = new OpenCVFrameConverter.ToMat();
 				Java2DFrameConverter converterToBufferedImage = new Java2DFrameConverter()) {
 			return converterToBufferedImage.convert(converterToMat.convert(mat));
 		}
 	}
+
+	public static byte[] bufferedImageToByteArray(BufferedImage bufferedImage, String format) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(bufferedImage, format, baos);
+		return baos.toByteArray();
+	}
+
 }
