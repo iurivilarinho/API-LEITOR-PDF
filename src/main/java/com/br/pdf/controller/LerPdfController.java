@@ -19,7 +19,7 @@ public class LerPdfController {
 	private LerPdfService pdfService;
 
 	@PostMapping
-	public String extractText(@RequestPart("file") MultipartFile file) {
+	public String extractText(@RequestPart("file") MultipartFile file) throws InterruptedException {
 		try {
 			return pdfService.extractTextFromPDF2(file);
 		} catch (IOException e) {
