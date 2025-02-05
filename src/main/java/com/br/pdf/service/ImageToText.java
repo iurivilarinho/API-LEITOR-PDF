@@ -49,7 +49,7 @@ public class ImageToText {
 
 		// Inicializar o Tesseract
 		ITesseract tesseract = new Tesseract();
-		tesseract.setDatapath("C:/Users/IuriSouza/Documents/");
+		tesseract.setDatapath("");
 
 		// Extrair texto usando OCR
 		String extractedText = tesseract.doOCR(bufferedImage);
@@ -83,7 +83,7 @@ public class ImageToText {
 
 		// Inicializar o Tesseract
 		ITesseract tesseract = new Tesseract();
-		tesseract.setDatapath("C:/Users/IuriSouza/Documents/");
+		tesseract.setDatapath("C:/Users/iuri/Documents/");
 
 		// Extrair texto usando OCR
 		String extractedText = tesseract.doOCR(smoothedBufferedImage);

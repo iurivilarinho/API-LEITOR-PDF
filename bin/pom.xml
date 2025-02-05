@@ -32,7 +32,11 @@
 		<spring-ai.version>1.0.0-M1</spring-ai.version>
 	</properties>
 	<dependencies>
-
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.11</version>
+		</dependency>
 
 		<!-- Dependência do OpenCV -->
 		<dependency>
@@ -57,7 +61,16 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.17.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.32.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-gson</artifactId>
+			<version>1.39.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
